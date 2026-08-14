@@ -5,6 +5,7 @@ import Aurora from "@/components/Aurora";
 import Cursor from "@/components/Cursor";
 import Footer from "@/components/Footer";
 import Nav from "@/components/Nav";
+import Preloader from "@/components/Preloader";
 import Providers from "@/components/Providers";
 import { profile } from "@/lib/data";
 
@@ -35,6 +36,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className={`${inter.variable} ${fraunces.variable} font-sans antialiased`}>
         <Providers>
+          <Preloader />
           <div className="grain relative flex min-h-screen flex-col">
             <Aurora />
             <Cursor />

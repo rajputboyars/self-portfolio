@@ -1,62 +1,41 @@
 @import "tailwindcss";
 
-@custom-variant dark (&:where(.dark, .dark *));
-
 :root {
-  --c-bg: #fbfaf7;
-  --c-bg-soft: #f4f2ec;
+  --c-bg: #eef3f1;
   --c-card: #ffffff;
-  --c-line: #e6e2d8;
-  --c-line-soft: #efece4;
-  --c-fg: #1d1c1a;
-  --c-mute: #6d6a63;
-  --c-accent: #5b4fd1;
-  --c-accent-soft: #7f77dd;
-  --c-accent-tint: #eeedfe;
-  --c-on-accent: #ffffff;
-  --c-mint: #1d9e75;
-  --c-peach: #d85a30;
-  --c-shadow: 0 1px 2px rgb(29 28 26 / 0.04), 0 8px 24px rgb(29 28 26 / 0.06);
-  --grain-opacity: 0.025;
-  --aurora-opacity: 0.55;
-}
-
-.dark {
-  --c-bg: #0b0b0f;
-  --c-bg-soft: #111117;
-  --c-card: #14141b;
-  --c-line: #24242e;
-  --c-line-soft: #1c1c24;
-  --c-fg: #f4f4f6;
-  --c-mute: #8f8f99;
-  --c-accent: #7f77dd;
-  --c-accent-soft: #afa9ec;
-  --c-accent-tint: #1a1832;
-  --c-on-accent: #14122e;
-  --c-mint: #5dcaa5;
-  --c-peach: #f0997b;
-  --c-shadow: 0 1px 2px rgb(0 0 0 / 0.3), 0 8px 24px rgb(0 0 0 / 0.35);
-  --grain-opacity: 0.035;
-  --aurora-opacity: 0.4;
+  --c-line: #c6d6d2;
+  --c-fg: #10302b;
+  --c-mute: #4d6b66;
+  --c-accent: #f59e2b;
+  --c-accent-deep: #d97f0e;
+  --c-on-accent: #13443d;
+  --c-teal: #13443d;
+  --c-teal-2: #1b5249;
+  --c-teal-3: #1d5a51;
+  --c-teal-4: #2f6b61;
+  --c-teal-soft: #bcd3cd;
+  --c-on-teal: #f3f7f5;
+  --c-on-teal-mute: #c9ddd8;
 }
 
 @theme inline {
   --color-bg: var(--c-bg);
-  --color-bg-soft: var(--c-bg-soft);
   --color-card: var(--c-card);
   --color-line: var(--c-line);
-  --color-line-soft: var(--c-line-soft);
   --color-fg: var(--c-fg);
   --color-mute: var(--c-mute);
   --color-accent: var(--c-accent);
-  --color-accent-soft: var(--c-accent-soft);
-  --color-accent-tint: var(--c-accent-tint);
+  --color-accent-deep: var(--c-accent-deep);
   --color-on-accent: var(--c-on-accent);
-  --color-mint: var(--c-mint);
-  --color-peach: var(--c-peach);
-  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
-  --font-display: var(--font-fraunces), ui-serif, Georgia, serif;
-  --shadow-soft: var(--c-shadow);
+  --color-teal: var(--c-teal);
+  --color-teal-2: var(--c-teal-2);
+  --color-teal-3: var(--c-teal-3);
+  --color-teal-4: var(--c-teal-4);
+  --color-teal-soft: var(--c-teal-soft);
+  --color-on-teal: var(--c-on-teal);
+  --color-on-teal-mute: var(--c-on-teal-mute);
+  --font-sans: var(--font-poppins), "Segoe UI", ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-poppins), "Segoe UI", ui-sans-serif, system-ui, sans-serif;
 }
 
 html {
@@ -81,25 +60,51 @@ body {
   background: var(--c-bg);
 }
 ::-webkit-scrollbar-thumb {
-  background: var(--c-line);
+  background: var(--c-teal-4);
   border-radius: 99px;
 }
 
-.grain::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  z-index: 1;
-  pointer-events: none;
-  opacity: var(--grain-opacity);
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+/* Stacked "paper" layers under the teal hero cards */
+.stacked {
+  box-shadow:
+    0 24px 0 -8px var(--c-teal-4),
+    0 44px 0 -18px var(--c-teal-soft);
 }
 
-.text-gradient {
-  background: linear-gradient(100deg, var(--c-accent), var(--c-peach) 55%, var(--c-mint));
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
+@keyframes floaty {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-14px);
+  }
+}
+@keyframes spin-slow {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes twinkle {
+  0%,
+  100% {
+    opacity: 0.35;
+    transform: scale(0.8);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.1);
+  }
+}
+
+.animate-floaty {
+  animation: floaty 5s ease-in-out infinite;
+}
+.animate-spin-slow {
+  animation: spin-slow 40s linear infinite;
+}
+.animate-twinkle {
+  animation: twinkle 2.6s ease-in-out infinite;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -110,6 +115,7 @@ body {
   *::before,
   *::after {
     animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
 }

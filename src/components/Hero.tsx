@@ -1,129 +1,123 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { ArrowDown, ArrowUpRight, MapPin } from "lucide-react";
-import ResumeButton from "./ResumeButton";
+import { ChevronDown, Download } from "lucide-react";
+import CountUp from "./CountUp";
+import Sparkle from "./Sparkle";
+import TealShell from "./TealShell";
 import { profile } from "@/lib/data";
 
-const line1 = ["I", "build", "fast,"];
-const line2 = ["API-driven", "interfaces."];
+const ease = [0.22, 1, 0.36, 1] as const;
 
-const container = {
-  hidden: {},
-  show: { transition: { staggerChildren: 0.08, delayChildren: 0.25 } },
-};
+// Wait for the preloader only on the first page load, not on client-side navigation back home.
+let introPlayed = false;
 
-const word = {
-  hidden: { opacity: 0, y: "60%", rotate: 4 },
-  show: {
-    opacity: 1,
-    y: "0%",
-    rotate: 0,
-    transition: { duration: 0.9, ease: [0.22, 1, 0.36, 1] as const },
-  },
-};
-
-const chips = ["Next.js", "TypeScript", "React", "GraphQL", "Node.js", "Tailwind CSS"];
+const heroStats = [profile.stats[0], profile.stats[1], profile.stats[3]];
 
 export default function Hero() {
+  const [introDelay] = useState(() => (introPlayed ? 0 : 2.4));
+  useEffect(() => {
+    introPlayed = true;
+  }, []);
+
+  const rise = (delay: number) => ({
+    initial: { opacity: 0, y: 28 },
+    animate: { opacity: 1, y: 0 },
+    transition: { duration: 0.9, delay: introDelay + delay, ease },
+  });
+
   return (
-    <section className="relative flex min-h-screen items-center px-6 pt-32 pb-20">
-      <div className="mx-auto w-full max-w-6xl">
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.6 }}
-          className="mb-7 inline-flex items-center gap-2.5 rounded-full border border-line bg-card/70 px-4 py-1.5 backdrop-blur"
-        >
-          <span className="relative flex h-2 w-2">
-            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-mint opacity-70" />
-            <span className="relative inline-flex h-2 w-2 rounded-full bg-mint" />
-          </span>
-          <span className="text-xs tracking-wide text-mute">Available for new work</span>
-        </motion.div>
+    <TealShell className="pb-24 md:pb-28">
+      <div className="grid items-center gap-10 lg:grid-cols-2">
+        <div className="flex flex-col gap-6">
+          <motion.div {...rise(0)} className="flex items-center gap-2.5 text-sm text-on-teal-mute">
+            <span className="relative flex h-2.5 w-2.5">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-300 opacity-60" />
+              <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-emerald-300" />
+            </span>
+            {profile.role} · {profile.location}
+          </motion.div>
 
-        <motion.h1
-          variants={container}
-          initial="hidden"
-          animate="show"
-          className="max-w-4xl font-display text-[15vw] leading-[0.95] tracking-tight sm:text-6xl md:text-7xl lg:text-8xl"
-        >
-          <span className="block overflow-hidden pb-2">
-            {line1.map((w, i) => (
-              <motion.span key={i} variants={word} className="mr-[0.25em] inline-block">
-                {w}
-              </motion.span>
-            ))}
-          </span>
-          <span className="block overflow-hidden pb-2">
-            {line2.map((w, i) => (
-              <motion.span
-                key={i}
-                variants={word}
-                className={`mr-[0.25em] inline-block ${i === 0 ? "text-gradient" : ""}`}
-              >
-                {w}
-              </motion.span>
-            ))}
-          </span>
-        </motion.h1>
-
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.7 }}
-          className="mt-8 max-w-xl text-base leading-relaxed text-mute"
-        >
-          {profile.summary}
-        </motion.p>
-
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.85 }}
-          className="mt-9 flex flex-wrap items-center gap-3"
-        >
-          <Link
-            href="/work"
-            className="group inline-flex items-center gap-2 rounded-full bg-accent px-6 py-3 text-sm font-medium text-on-accent transition-transform duration-300 hover:scale-[1.03]"
+          <motion.h1
+            {...rise(0.1)}
+            className="text-[40px] font-extrabold leading-[1.08] tracking-[-0.03em] sm:text-6xl lg:text-[68px]"
           >
-            View my work
-            <ArrowUpRight
-              size={16}
-              className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
-            />
-          </Link>
-          <ResumeButton variant="outline" />
-          <span className="inline-flex items-center gap-1.5 text-sm text-mute">
-            <MapPin size={14} /> {profile.location}
-          </span>
-        </motion.div>
+            I build web apps that feel <span className="text-accent">fast</span> and ship clean.
+          </motion.h1>
 
-        <motion.ul
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.8, delay: 1 }}
-          className="mt-14 flex flex-wrap gap-2"
-        >
-          {chips.map((chip) => (
-            <li
-              key={chip}
-              className="rounded-lg border border-line bg-card/60 px-3 py-1.5 text-xs text-mute backdrop-blur transition-colors hover:border-accent/50 hover:text-accent"
+          <motion.p {...rise(0.25)} className="max-w-[520px] text-base leading-relaxed text-on-teal-mute sm:text-lg">
+            Full Stack Developer with 4.5 years crafting responsive, high-performance products in
+            React, Next.js and TypeScript.
+          </motion.p>
+
+          <motion.div {...rise(0.4)} className="flex flex-wrap items-center gap-4">
+            <Link
+              href="/work"
+              className="rounded-full bg-accent px-7 py-4 font-semibold text-on-accent transition-transform duration-300 hover:scale-105"
             >
-              {chip}
-            </li>
-          ))}
-        </motion.ul>
+              View my work
+            </Link>
+            <a
+              href={profile.resume}
+              download={profile.resumeFileName}
+              className="group flex items-center gap-3"
+            >
+              <span className="flex h-12 w-12 items-center justify-center rounded-full border-2 border-white/35 transition-colors group-hover:border-accent group-hover:bg-accent group-hover:text-on-accent">
+                <Download size={18} />
+              </span>
+              Download résumé
+            </a>
+          </motion.div>
+
+          <motion.div {...rise(0.55)} className="mt-3 flex flex-wrap gap-10 sm:gap-12">
+            {heroStats.map((stat) => (
+              <div key={stat.label}>
+                <CountUp value={stat.value} className="text-3xl font-bold sm:text-[34px]" />
+                <div className="text-[13px] text-on-teal-mute/80">{stat.label}</div>
+              </div>
+            ))}
+          </motion.div>
+        </div>
 
         <motion.div
-          animate={{ y: [0, 8, 0] }}
-          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-          className="mt-16 hidden text-mute md:block"
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 1.1, delay: introDelay + 0.1, ease }}
+          className="relative mx-auto flex h-[380px] w-full max-w-[520px] items-center justify-center sm:h-[520px]"
         >
-          <ArrowDown size={18} />
+          <div className="absolute h-[300px] w-[300px] rounded-full bg-teal-3 sm:h-[440px] sm:w-[440px]" />
+          <div className="animate-spin-slow absolute h-[360px] w-[360px] rounded-full border-2 border-dashed border-white/20 sm:h-[520px] sm:w-[520px]" />
+          <div className="animate-floaty relative flex h-[320px] w-[250px] items-end justify-center overflow-hidden rounded-[180px_180px_28px_28px] bg-gradient-to-b from-[#2a7468] to-[#0e3731] sm:h-[440px] sm:w-[340px]">
+            {/* Replace with <Image> of your photo */}
+            <span className="absolute inset-0 flex items-center justify-center text-[120px] font-extrabold text-white/10 sm:text-[160px]">
+              AR
+            </span>
+          </div>
+          <Sparkle className="absolute left-6 top-10 sm:left-14 sm:top-16" />
+          <div
+            className="animate-floaty absolute right-0 top-20 rounded-2xl bg-white px-4 py-3 text-sm font-semibold text-teal shadow-[0_20px_40px_rgba(0,0,0,0.25)] sm:right-2 sm:top-28"
+            style={{ animationDelay: "1s" }}
+          >
+            React · Next.js
+          </div>
+          <div
+            className="animate-floaty absolute bottom-16 left-0 rounded-2xl bg-accent px-4 py-3 text-sm font-semibold text-on-accent sm:bottom-24"
+            style={{ animationDelay: "2s" }}
+          >
+            TypeScript · GraphQL
+          </div>
         </motion.div>
       </div>
-    </section>
+
+      <a
+        href="#how-i-work"
+        aria-label="Scroll down"
+        className="absolute -bottom-9 left-1/2 flex h-[68px] w-[68px] -translate-x-1/2 items-center justify-center rounded-full bg-bg text-teal"
+      >
+        <ChevronDown size={24} strokeWidth={2.4} className="animate-floaty" />
+      </a>
+    </TealShell>
   );
 }

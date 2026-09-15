@@ -1,56 +1,25 @@
-"use client";
-
 import Link from "next/link";
-import { motion } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
 import Reveal from "./Reveal";
-import ResumeButton from "./ResumeButton";
 
-type Props = {
-  eyebrow?: string;
-  title?: string;
-  body?: string;
-};
+type Props = { title?: string; action?: string };
 
-export default function CTA({
-  eyebrow = "Next step",
-  title = "Have a project in mind?",
-  body = "I'm open to frontend and full-stack roles, and to freelance builds. Tell me what you're working on.",
-}: Props) {
+export default function CTA({ title = "Have a product to build? Let's talk.", action = "Get in touch" }: Props) {
   return (
-    <section className="relative z-10 px-6 py-24">
-      <div className="mx-auto max-w-6xl">
-        <Reveal>
-          <div className="relative overflow-hidden rounded-3xl border border-line bg-card/70 p-9 backdrop-blur md:p-14">
-            <div className="pointer-events-none absolute -right-20 -top-24 h-72 w-72 rounded-full bg-accent/20 blur-3xl" />
-            <div className="pointer-events-none absolute -bottom-28 -left-16 h-72 w-72 rounded-full bg-mint/20 blur-3xl" />
-
-            <div className="relative">
-              <p className="text-xs uppercase tracking-[0.22em] text-accent">{eyebrow}</p>
-              <h2 className="mt-5 max-w-2xl font-display text-3xl leading-tight tracking-tight md:text-5xl">
-                {title}
-              </h2>
-              <p className="mt-5 max-w-xl text-base leading-relaxed text-mute">{body}</p>
-
-              <div className="mt-9 flex flex-wrap items-center gap-3">
-                <motion.div whileHover={{ y: -2 }}>
-                  <Link
-                    href="/contact"
-                    className="group inline-flex items-center gap-2 rounded-full bg-accent px-6 py-3 text-sm font-medium text-on-accent"
-                  >
-                    Start a conversation
-                    <ArrowUpRight
-                      size={16}
-                      className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
-                    />
-                  </Link>
-                </motion.div>
-                <ResumeButton variant="outline" />
-              </div>
-            </div>
-          </div>
-        </Reveal>
-      </div>
-    </section>
+    <Reveal className="mx-auto my-24 max-w-[1360px] md:my-28">
+      <section className="relative flex flex-col items-start justify-between gap-8 overflow-hidden rounded-[28px] bg-accent px-7 py-12 md:flex-row md:items-center md:rounded-[36px] md:p-[70px]">
+        <div className="animate-spin-slow pointer-events-none absolute -top-20 right-[20%] h-64 w-64 rounded-full border-[40px] border-dashed border-white/20" />
+        <h2 className="relative max-w-2xl text-3xl font-extrabold leading-tight text-teal sm:text-[52px]">
+          {title}
+        </h2>
+        <Link
+          href="/contact"
+          className="group relative inline-flex shrink-0 items-center gap-2 rounded-full bg-teal px-8 py-5 text-[17px] font-semibold text-white transition-transform duration-300 hover:scale-105"
+        >
+          {action}
+          <ArrowUpRight size={20} className="transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+        </Link>
+      </section>
+    </Reveal>
   );
 }

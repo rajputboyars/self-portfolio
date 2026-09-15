@@ -11,28 +11,24 @@ export const metadata: Metadata = {
 };
 
 export default function WorkPage() {
+  const years = projects.map((p) => Number(p.year));
+
   return (
     <>
       <PageHeader
-        eyebrow="Work"
-        title="Things I've shipped."
+        eyebrow={`Selected work · ${Math.min(...years)} — ${Math.max(...years)}`}
         lead="Headless storefronts, CMS-driven platforms and internal tools — each one owned end to end, from component architecture through to performance tuning."
-      />
+      >
+        Products I&apos;ve <span className="text-accent">shipped</span>
+      </PageHeader>
 
-      <section className="px-6 py-16">
-        <div className="mx-auto max-w-6xl">
-          <div className="grid gap-6 md:grid-cols-2">
-            {projects.map((project, i) => (
-              <ProjectCard key={project.slug} project={project} index={i} />
-            ))}
-          </div>
-        </div>
+      <section className="mx-auto mt-24 grid max-w-[1320px] gap-8 px-1 sm:px-5 md:grid-cols-2">
+        {projects.map((project, i) => (
+          <ProjectCard key={project.slug} project={project} index={i} />
+        ))}
       </section>
 
-      <CTA
-        title="Your project could be next."
-        body="Tell me about the product you're building and I'll tell you how I'd approach the frontend."
-      />
+      <CTA title="Your project could be next." action="Start a conversation" />
     </>
   );
 }

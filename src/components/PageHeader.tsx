@@ -1,44 +1,44 @@
 "use client";
 
+import type { ReactNode } from "react";
 import { motion } from "framer-motion";
+import Sparkle from "./Sparkle";
+import TealShell from "./TealShell";
 
-type Props = {
-  eyebrow: string;
-  title: string;
-  lead?: string;
-};
+type Props = { eyebrow: string; children: ReactNode; lead?: string };
 
-export default function PageHeader({ eyebrow, title, lead }: Props) {
+const ease = [0.22, 1, 0.36, 1] as const;
+
+export default function PageHeader({ eyebrow, children, lead }: Props) {
   return (
-    <header className="px-6 pb-4 pt-36">
-      <div className="mx-auto max-w-6xl">
+    <TealShell>
+      <Sparkle size={36} className="absolute right-10 top-28 hidden sm:block lg:right-20 lg:top-36" />
+      <motion.span
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, ease }}
+        className="block text-sm uppercase tracking-[0.18em] text-on-teal-mute"
+      >
+        {eyebrow}
+      </motion.span>
+      <motion.h1
+        initial={{ opacity: 0, y: 28 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.9, delay: 0.1, ease }}
+        className="mt-4 max-w-4xl text-[40px] font-extrabold leading-[1.05] tracking-[-0.03em] sm:text-6xl lg:text-[72px]"
+      >
+        {children}
+      </motion.h1>
+      {lead && (
         <motion.p
-          initial={{ opacity: 0, y: 12 }}
+          initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="text-xs uppercase tracking-[0.22em] text-accent"
+          transition={{ duration: 0.8, delay: 0.25, ease }}
+          className="mt-6 max-w-2xl text-base leading-relaxed text-on-teal-mute sm:text-lg"
         >
-          {eyebrow}
+          {lead}
         </motion.p>
-        <motion.h1
-          initial={{ opacity: 0, y: 28 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.85, delay: 0.08, ease: [0.22, 1, 0.36, 1] }}
-          className="mt-5 max-w-3xl font-display text-5xl leading-[1.02] tracking-tight md:text-7xl"
-        >
-          {title}
-        </motion.h1>
-        {lead ? (
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="mt-7 max-w-2xl text-lg leading-relaxed text-mute"
-          >
-            {lead}
-          </motion.p>
-        ) : null}
-      </div>
-    </header>
+      )}
+    </TealShell>
   );
 }

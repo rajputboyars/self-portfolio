@@ -5,155 +5,124 @@ import { motion } from "framer-motion";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import CTA from "./CTA";
 import Reveal from "./Reveal";
+import TealShell from "./TealShell";
 import type { Project } from "@/lib/data";
 
-type Props = {
-  project: Project;
-  previous?: Project;
-  next?: Project;
-};
+type Props = { project: Project; previous?: Project; next?: Project };
 
-const meta = (project: Project) => [
-  { label: "Client", value: project.client },
-  { label: "Year", value: project.year },
-  { label: "Role", value: project.role },
-  { label: "Stack", value: project.stack.join(", ") },
-];
+const ease = [0.22, 1, 0.36, 1] as const;
 
 export default function ProjectDetail({ project, previous, next }: Props) {
+  const meta = [
+    { label: "Role", value: project.role },
+    { label: "Stack", value: project.stack.join(" · ") },
+    { label: "Year", value: project.year },
+  ];
+
   return (
-    <div className="relative z-10 px-6 pb-8 pt-36">
-      <div className="mx-auto max-w-5xl">
-        <Reveal y={16}>
-          <Link
-            href="/work"
-            className="group inline-flex items-center gap-2 text-sm text-mute transition-colors hover:text-accent"
-          >
-            <ArrowLeft
-              size={16}
-              className="transition-transform duration-300 group-hover:-translate-x-1"
-            />
-            All work
+    <>
+      <TealShell stacked={false} className="overflow-hidden pb-0 lg:pb-0">
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease }}>
+          <Link href="/work" className="group inline-flex items-center gap-2 text-sm text-on-teal-mute hover:text-accent">
+            <ArrowLeft size={16} className="transition-transform group-hover:-translate-x-1" /> Back to work
           </Link>
-        </Reveal>
-
-        <motion.p
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.05 }}
-          className="mt-10 text-xs uppercase tracking-[0.22em] text-accent"
-        >
-          {project.year} · {project.title}
-        </motion.p>
-
-        <motion.h1
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.85, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
-          className="mt-5 font-display text-5xl leading-[1.02] tracking-tight md:text-7xl"
-        >
-          {project.client}
-        </motion.h1>
-
+        </motion.div>
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.22 }}
-          className="mt-8 max-w-2xl text-lg leading-relaxed text-mute"
+          transition={{ duration: 0.8, delay: 0.1, ease }}
+          className="mt-5 text-sm font-semibold uppercase tracking-[0.14em] text-accent"
         >
-          {project.summary}
+          {project.client} · {project.year}
         </motion.p>
+        <motion.h1
+          initial={{ opacity: 0, y: 28 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.9, delay: 0.15, ease }}
+          className="mt-4 max-w-4xl text-[40px] font-extrabold leading-[1.05] tracking-[-0.03em] sm:text-6xl lg:text-[76px]"
+        >
+          {project.title}
+        </motion.h1>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.3, ease }}
+          className="mt-10 grid gap-6 border-t border-white/15 py-7 sm:grid-cols-3"
+        >
+          {meta.map((item) => (
+            <div key={item.label}>
+              <div className="text-[13px] text-on-teal-mute/80">{item.label}</div>
+              <div className="mt-1 font-semibold sm:text-[17px]">{item.value}</div>
+            </div>
+          ))}
+        </motion.div>
 
-        <div className="mt-14 grid gap-px overflow-hidden rounded-2xl border border-line bg-line sm:grid-cols-2 lg:grid-cols-4">
-          {meta(project).map((item, i) => (
-            <Reveal key={item.label} delay={i * 0.07}>
-              <div className="h-full bg-card/80 p-6 backdrop-blur">
-                <p className="text-xs uppercase tracking-[0.16em] text-mute">{item.label}</p>
-                <p className="mt-2.5 text-sm leading-relaxed">{item.value}</p>
+        <motion.div
+          initial={{ opacity: 0, y: 80 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1.1, delay: 0.4, ease }}
+          className="mx-auto mt-4 max-w-[1080px]"
+        >
+          <div className="animate-floaty flex h-64 flex-col overflow-hidden rounded-t-[26px] bg-bg sm:h-[460px]">
+            <div className="flex gap-2 bg-[#dfe9e6] px-5 py-3.5">
+              <span className="h-3 w-3 rounded-full bg-accent" />
+              <span className="h-3 w-3 rounded-full bg-[#9cc3ba]" />
+              <span className="h-3 w-3 rounded-full bg-[#9cc3ba]" />
+            </div>
+            {/* Replace with a project screenshot */}
+            <div className="flex flex-1 items-center justify-center text-5xl font-extrabold tracking-tight text-teal/10 sm:text-8xl">
+              {project.client}
+            </div>
+          </div>
+        </motion.div>
+      </TealShell>
+
+      <section className="mx-auto grid max-w-[1280px] gap-14 px-2 pt-24 sm:px-6 lg:grid-cols-2 lg:gap-20">
+        <Reveal className="flex flex-col gap-5">
+          <h2 className="text-3xl font-bold sm:text-[40px]">
+            The <span className="text-accent">brief</span>
+          </h2>
+          <p className="text-lg leading-relaxed text-mute">{project.summary}</p>
+        </Reveal>
+        <div className="flex flex-col gap-4">
+          <Reveal>
+            <h3 className="mb-1 text-[22px] font-semibold">Highlights</h3>
+          </Reveal>
+          {project.highlights.map((highlight, i) => (
+            <Reveal key={highlight} delay={i * 0.08}>
+              <div className="flex gap-4 rounded-[20px] bg-card p-5 transition-transform duration-300 hover:translate-x-2">
+                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-teal text-sm font-bold text-accent">
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+                <span className="leading-relaxed text-[#34524d]">{highlight}</span>
               </div>
             </Reveal>
           ))}
         </div>
+      </section>
 
-        <div className="mt-20">
-          <Reveal>
-            <h2 className="font-display text-3xl tracking-tight md:text-4xl">What I built</h2>
-          </Reveal>
-          <ul className="mt-10 grid gap-4">
-            {project.highlights.map((point, i) => (
-              <Reveal key={point} delay={i * 0.06}>
-                <motion.li
-                  whileHover={{ x: 4 }}
-                  className="flex gap-6 rounded-2xl border border-line bg-card/70 p-6 backdrop-blur transition-colors hover:border-accent/50"
-                >
-                  <span className="shrink-0 font-display text-lg text-accent">
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
-                  <p className="text-base leading-relaxed">{point}</p>
-                </motion.li>
-              </Reveal>
-            ))}
-          </ul>
-        </div>
+      <section className="mx-auto grid max-w-[1320px] gap-6 px-1 pt-24 sm:px-5 md:grid-cols-2">
+        {previous ? (
+          <Link href={`/work/${previous.slug}`} className="group rounded-[28px] bg-card p-9 transition-transform duration-300 hover:-translate-y-1">
+            <div className="flex items-center gap-2 text-[13px] text-mute">
+              <ArrowLeft size={14} className="transition-transform group-hover:-translate-x-1" /> Previous
+            </div>
+            <div className="mt-1.5 text-[22px] font-semibold">{previous.title}</div>
+          </Link>
+        ) : (
+          <div className="hidden md:block" />
+        )}
+        {next && (
+          <Link href={`/work/${next.slug}`} className="group rounded-[28px] bg-teal p-9 text-right text-white transition-transform duration-300 hover:-translate-y-1">
+            <div className="flex items-center justify-end gap-2 text-[13px] text-accent">
+              Next project <ArrowRight size={14} className="transition-transform group-hover:translate-x-1" />
+            </div>
+            <div className="mt-1.5 text-[22px] font-semibold">{next.title}</div>
+          </Link>
+        )}
+      </section>
 
-        <div className="mt-20">
-          <Reveal>
-            <h2 className="font-display text-3xl tracking-tight md:text-4xl">Technologies</h2>
-          </Reveal>
-          <Reveal delay={0.1}>
-            <ul className="mt-8 flex flex-wrap gap-3">
-              {project.stack.map((tech) => (
-                <motion.li
-                  key={tech}
-                  whileHover={{ y: -3 }}
-                  className="rounded-lg border border-line bg-card/70 px-4 py-2 text-sm text-mute backdrop-blur"
-                >
-                  {tech}
-                </motion.li>
-              ))}
-            </ul>
-          </Reveal>
-        </div>
-
-        <div className="mt-20 grid gap-4 border-t border-line pt-10 sm:grid-cols-2">
-          {previous ? (
-            <Link
-              href={`/work/${previous.slug}`}
-              className="group rounded-2xl border border-line bg-card/70 p-6 backdrop-blur transition-colors hover:border-accent/50"
-            >
-              <span className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.16em] text-mute">
-                <ArrowLeft size={14} /> Previous
-              </span>
-              <p className="mt-3 font-display text-xl tracking-tight group-hover:text-accent">
-                {previous.client}
-              </p>
-              <p className="mt-1 text-sm text-mute">{previous.title}</p>
-            </Link>
-          ) : (
-            <span />
-          )}
-          {next ? (
-            <Link
-              href={`/work/${next.slug}`}
-              className="group rounded-2xl border border-line bg-card/70 p-6 text-right backdrop-blur transition-colors hover:border-accent/50 sm:col-start-2"
-            >
-              <span className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.16em] text-mute">
-                Next <ArrowRight size={14} />
-              </span>
-              <p className="mt-3 font-display text-xl tracking-tight group-hover:text-accent">
-                {next.client}
-              </p>
-              <p className="mt-1 text-sm text-mute">{next.title}</p>
-            </Link>
-          ) : null}
-        </div>
-      </div>
-
-      <CTA
-        eyebrow="Next step"
-        title="Want something like this for your product?"
-        body="Tell me what you're building and I'll tell you how I'd approach the frontend."
-      />
-    </div>
+      <CTA />
+    </>
   );
 }

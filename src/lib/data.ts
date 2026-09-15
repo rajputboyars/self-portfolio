@@ -12,7 +12,7 @@ export const profile = {
   stats: [
     { value: "4.5", label: "Years of experience" },
     { value: "50K+", label: "Users served" },
-    { value: "04", label: "Shipped projects" },
+    { value: "05", label: "Shipped projects" },
     { value: "10+", label: "Technologies" },
   ],
 };
@@ -26,7 +26,16 @@ export type Project = {
   stack: string[];
   summary: string;
   highlights: string[];
+  /** "personal" = personal / freelance builds, shown in their own section. Defaults to client work. */
+  category?: "client" | "personal";
+  problem?: string;
+  outcome?: string;
+  liveUrl?: string;
+  /** Extra grouped detail shown on the project page (e.g. admin panel, security). */
+  sections?: { title: string; items: string[] }[];
 };
+
+export const isPersonal = (project: Project) => project.category === "personal";
 
 export function getProject(slug: string) {
   return projects.find((project) => project.slug === slug);
@@ -42,6 +51,79 @@ export function getProjectNeighbours(slug: string) {
 }
 
 export const projects: Project[] = [
+  {
+    slug: "interior-design-hub",
+    title: "Aluminium & glass business website",
+    client: "Personal · Freelance",
+    category: "personal",
+    year: "2026",
+    role: "Full stack design, development and testing",
+    stack: [
+      "Next.js 15",
+      "React",
+      "TypeScript",
+      "MongoDB",
+      "Mongoose",
+      "Tailwind CSS",
+      "Framer Motion",
+      "Lenis",
+      "Zod",
+      "JWT (jose)",
+      "Playwright",
+      "Vitest",
+      "axe-core",
+      "Docker",
+      "Vercel",
+    ],
+    summary:
+      "A glassmorphism website with a full admin panel, letting an aluminium and glass business show its work, collect quote requests and manage everything on its own.",
+    problem:
+      "The client sells aluminium and glass products and services but had no way to show their work online or collect enquiries. They needed a modern site they could update themselves.",
+    outcome:
+      "A fast, accessible and secure website that the client can run on their own, ready to hand over and move to their own server.",
+    liveUrl: "https://interior-design-hub-taupe.vercel.app/",
+    highlights: [
+      "Server rendering with cached catalogue data that refreshes as soon as the admin saves a change.",
+      "102 end-to-end tests (Playwright) and 68 unit tests (Vitest), written from a QA and business-analyst point of view, covering every page, admin workflow and mobile layout.",
+      "WCAG 2.1 AA checks with axe-core, keyboard navigation, skip links, focus trapping in dialogs, readable colour contrast and a pausable ticker.",
+      "A demo mode lets the site run on Vercel before the client's database exists; going live only needs environment variables, no code changes.",
+    ],
+    sections: [
+      {
+        title: "Public website",
+        items: [
+          "Home, Services, Products, Projects and Contact pages, each service and product with its own page.",
+          "Quote forms throughout the site, including product-specific enquiries with size options.",
+          "Glassmorphism design system, scroll animations, smooth scrolling and a branded loader.",
+          "Fully responsive, with a dedicated mobile menu and mobile-friendly layouts.",
+        ],
+      },
+      {
+        title: "Admin panel",
+        items: [
+          "Secure sign-in.",
+          "Add, edit and delete services, products and projects, with image upload.",
+          "Lead management with status tracking and CSV export.",
+          "Business settings (contact details, WhatsApp, stats) that update across the whole site.",
+        ],
+      },
+      {
+        title: "Design process",
+        items: [
+          "Explored several visual directions (dark, modern, four colour themes, light, glassmorphism) as clickable prototypes before choosing the final glass style with the client.",
+        ],
+      },
+      {
+        title: "Security",
+        items: [
+          "Sign-in lockout after repeated failures, and rate-limited quote forms with a hidden anti-spam field.",
+          "Protection against cross-site request forgery.",
+          "Content-Security-Policy and HSTS headers.",
+          "Checks on uploaded file types, and admin checks on every page and API.",
+        ],
+      },
+    ],
+  },
   {
     slug: "haldirams",
     title: "Shopify headless storefront",

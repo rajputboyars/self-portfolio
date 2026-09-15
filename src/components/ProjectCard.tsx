@@ -31,6 +31,11 @@ export default function ProjectCard({ project, index }: { project: Project; inde
           >
             {project.year}
           </span>
+          {project.category === "personal" && (
+            <span className="absolute right-4 top-4 rounded-full bg-white/90 px-3.5 py-1.5 text-xs font-semibold text-teal">
+              Personal project
+            </span>
+          )}
         </div>
         <div className="flex flex-col gap-2.5 px-3 pb-3 sm:px-4 sm:pb-4">
           <span className="text-[13px] font-semibold uppercase tracking-[0.08em] text-accent-deep">

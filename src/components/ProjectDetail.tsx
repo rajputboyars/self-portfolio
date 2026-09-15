@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { ArrowLeft, ArrowRight } from "lucide-react";
+import { ArrowLeft, ArrowRight, ArrowUpRight } from "lucide-react";
 import CTA from "./CTA";
 import Reveal from "./Reveal";
 import TealShell from "./TealShell";
@@ -82,7 +82,24 @@ export default function ProjectDetail({ project, previous, next }: Props) {
           <h2 className="text-3xl font-bold sm:text-[40px]">
             The <span className="text-accent">brief</span>
           </h2>
-          <p className="text-lg leading-relaxed text-mute">{project.summary}</p>
+          <p className="text-lg leading-relaxed text-mute">{project.problem ?? project.summary}</p>
+          {project.outcome && (
+            <div className="mt-4 rounded-[24px] bg-teal p-7 text-on-teal">
+              <div className="text-[13px] font-semibold uppercase tracking-[0.12em] text-accent">Outcome</div>
+              <p className="mt-2 leading-relaxed">{project.outcome}</p>
+            </div>
+          )}
+          {project.liveUrl && (
+            <a
+              href={project.liveUrl}
+              target="_blank"
+              rel="noreferrer"
+              className="group inline-flex items-center gap-2 self-start rounded-full bg-accent px-7 py-4 font-semibold text-on-accent transition-transform duration-300 hover:scale-105"
+            >
+              Visit live site
+              <ArrowUpRight size={18} className="transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+            </a>
+          )}
         </Reveal>
         <div className="flex flex-col gap-4">
           <Reveal>
@@ -100,6 +117,35 @@ export default function ProjectDetail({ project, previous, next }: Props) {
           ))}
         </div>
       </section>
+
+      {project.sections && (
+        <section className="mx-auto max-w-[1360px] px-0 pt-24">
+          <div className="rounded-[28px] bg-teal px-5 py-14 text-on-teal sm:px-10 md:rounded-[36px] lg:p-16">
+            <Reveal>
+              <h2 className="text-3xl font-bold sm:text-[42px]">
+                What I <span className="text-accent">built</span>
+              </h2>
+            </Reveal>
+            <div className="mt-10 grid gap-6 md:grid-cols-2">
+              {project.sections.map((section, i) => (
+                <Reveal key={section.title} delay={(i % 2) * 0.1}>
+                  <div className="h-full rounded-3xl bg-teal-2 p-7 sm:p-8">
+                    <h3 className="text-lg font-semibold text-accent">{section.title}</h3>
+                    <ul className="mt-4 flex flex-col gap-3">
+                      {section.items.map((item) => (
+                        <li key={item} className="flex gap-3 leading-relaxed text-on-teal-mute">
+                          <span className="mt-2.5 h-1.5 w-1.5 shrink-0 rounded-full bg-accent" />
+                          {item}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
 
       <section className="mx-auto grid max-w-[1320px] gap-6 px-1 pt-24 sm:px-5 md:grid-cols-2">
         {previous ? (

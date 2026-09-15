@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
 import Reveal from "./Reveal";
-import { projects } from "@/lib/data";
+import { isPersonal, projects } from "@/lib/data";
 
 export default function Projects({ limit = 2 }: { limit?: number }) {
   return (
@@ -15,7 +15,7 @@ export default function Projects({ limit = 2 }: { limit?: number }) {
         </Link>
       </Reveal>
       <div className="mt-11 grid gap-7 md:grid-cols-2">
-        {projects.slice(0, limit).map((project, i) => (
+        {projects.filter((p) => !isPersonal(p)).slice(0, limit).map((project, i) => (
           <Reveal key={project.slug} delay={i * 0.12}>
             <Link
               href={`/work/${project.slug}`}

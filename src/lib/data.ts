@@ -12,7 +12,7 @@ export const profile = {
   stats: [
     { value: "4.5", label: "Years of experience" },
     { value: "50K+", label: "Users served" },
-    { value: "06", label: "Shipped projects" },
+    { value: "07", label: "Shipped projects" },
     { value: "10+", label: "Technologies" },
   ],
 };
@@ -57,6 +57,66 @@ export function getProjectNeighbours(slug: string) {
 }
 
 export const projects: Project[] = [
+  {
+    slug: "isha-photography",
+    title: "Wedding photography studio site & CMS",
+    client: "Isha Photography",
+    category: "personal",
+    year: "2026",
+    role: "Design direction, full build and CMS",
+    tagline: "A photographer with good work and nowhere to send people.",
+    stack: [
+      "Next.js 15",
+      "React 19",
+      "Tailwind CSS",
+      "Server Actions",
+      "Edge middleware",
+      "sharp",
+      "next/image",
+      "Playwright",
+    ],
+    summary:
+      "A wedding photography studio site and custom CMS — five marketing pages, six service landing pages, and an admin for enquiries, galleries and pricing.",
+    problem:
+      "The studio had a single-page site left over from a starter template: stock heading styles, a gallery of watermarked promotional posters, and a contact section that was three social icons and no form. Enquiries arrived through Instagram DMs and got lost. The job was to turn it into something a couple could land on from a search, understand in thirty seconds and enquire through — and to give the photographer a way to keep it up to date without touching code.",
+    outcome:
+      "16 public routes and 8 admin screens. The admin runs on demo data held in memory, with the data layer behind a single interface so a database connects without touching a page.",
+    highlights: [
+      "Fifteen design directions — ten themes and five interface-style studies — presented as complete home pages with the same copy and photographs, so the client compared treatment rather than content.",
+      "Frosted translucent panels over the photographs, with hierarchy carried by type weight (Outfit, 200–500). Every frosted surface has an @supports fallback to a solid panel, so the design degrades instead of turning invisible.",
+      "Image uploads are validated, EXIF-rotated, resized to 2000px and re-encoded — a 12MB frame off a card becomes about 1MB.",
+      "Every route driven in a real browser at 1440px and 390px; accessible by default with a skip link, visible focus and a keyboard-operable admin.",
+      "Upgraded Next.js from 15.1.3 to 15.5.25, closing published advisories including a middleware authorization bypass, SSRF via redirect handling and cache poisoning.",
+    ],
+    sections: [
+      {
+        title: "Public site",
+        items: [
+          "Six service pages, not one services section — weddings, pre-wedding, haldi/mehndi/sangeet, birthdays, corporate and portraits, each with its own URL, headline, gallery, price and FAQs, cross-linked to related services.",
+          "A films page for the videography half of the business: the three cuts of a wedding day, how they're made, and the same-day edit as an add-on.",
+          "A six-field enquiry form with an event-type chooser, posting to an API route that files the enquiry in the admin inbox — the old version opened a mail draft, so visitors without a mail client silently lost their enquiry.",
+        ],
+      },
+      {
+        title: "Studio admin",
+        items: [
+          "Enquiries with status tracking and one-tap reply.",
+          "Galleries with drag-and-drop photo upload into named categories.",
+          "A journal, plus editable prices and studio details.",
+          "Sidebar on desktop, bottom bar on a phone.",
+        ],
+      },
+      {
+        title: "Bugs found by running the real app",
+        items: [
+          "Uploads 404'd — Next indexes public/ at startup, so runtime uploads weren't served until a restart. Uploads now go through an API route that reads from disk or memory per request.",
+          "The admin was lying — the public portfolio imported the seed data file directly, so new galleries never appeared on the site. Both now read the same store.",
+          "Validation silently dead — slug fields used pattern=\"[a-z0-9-]+\", which newer Chrome rejects as an invalid expression, leaving no validation at all.",
+          "A form that refused to save — a type=\"email\" field still holding a bracketed placeholder blocked submission of the whole settings form, with no error shown.",
+        ],
+      },
+    ],
+  },
   {
     slug: "learnverse",
     title: "Learnverse",

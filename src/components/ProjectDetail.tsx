@@ -5,6 +5,7 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { ArrowLeft, ArrowRight, ArrowUpRight } from "lucide-react";
 import CTA from "./CTA";
+import GithubIcon from "./GithubIcon";
 import Reveal from "./Reveal";
 import TealShell from "./TealShell";
 import type { Project } from "@/lib/data";
@@ -44,6 +45,16 @@ export default function ProjectDetail({ project, previous, next }: Props) {
         >
           {project.title}
         </motion.h1>
+        {project.tagline && (
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.25, ease }}
+            className="mt-5 max-w-2xl text-xl leading-snug text-on-teal-mute sm:text-2xl"
+          >
+            {project.tagline}
+          </motion.p>
+        )}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -102,16 +113,30 @@ export default function ProjectDetail({ project, previous, next }: Props) {
               <p className="mt-2 leading-relaxed">{project.outcome}</p>
             </div>
           )}
-          {project.liveUrl && (
-            <a
-              href={project.liveUrl}
-              target="_blank"
-              rel="noreferrer"
-              className="group inline-flex items-center gap-2 self-start rounded-full bg-accent px-7 py-4 font-semibold text-on-accent transition-transform duration-300 hover:scale-105"
-            >
-              Visit live site
-              <ArrowUpRight size={18} className="transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
-            </a>
+          {(project.liveUrl || project.githubUrl) && (
+            <div className="flex flex-wrap gap-3">
+              {project.liveUrl && (
+                <a
+                  href={project.liveUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="group inline-flex items-center gap-2 rounded-full bg-accent px-7 py-4 font-semibold text-on-accent transition-transform duration-300 hover:scale-105"
+                >
+                  Visit live site
+                  <ArrowUpRight size={18} className="transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+                </a>
+              )}
+              {project.githubUrl && (
+                <a
+                  href={project.githubUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center gap-2 rounded-full border-[1.5px] border-teal px-7 py-4 font-semibold text-teal transition-colors duration-300 hover:bg-teal hover:text-white"
+                >
+                  <GithubIcon size={18} /> GitHub
+                </a>
+              )}
+            </div>
           )}
         </Reveal>
         <div className="flex flex-col gap-4">
@@ -130,6 +155,34 @@ export default function ProjectDetail({ project, previous, next }: Props) {
           ))}
         </div>
       </section>
+
+      {project.mobileImage && (
+        <section className="mx-auto grid max-w-[1280px] items-center gap-12 px-2 pt-24 sm:px-6 md:grid-cols-2">
+          <Reveal className="flex flex-col gap-4">
+            <span className="text-[13px] font-semibold uppercase tracking-[0.12em] text-accent-deep">Mobile</span>
+            <h2 className="text-3xl font-bold sm:text-[40px]">
+              Built for <span className="text-accent">phones</span> first
+            </h2>
+            <p className="text-lg leading-relaxed text-mute">
+              Swipeable learning cards, a feed and a bottom tab bar — so a concept fits into a spare
+              five minutes.
+            </p>
+          </Reveal>
+          <Reveal delay={0.1} className="flex justify-center">
+            <div className="animate-floaty relative w-[260px] rounded-[44px] bg-teal p-3 shadow-[0_40px_80px_-30px_rgba(16,48,43,0.6)] sm:w-[300px]">
+              <div className="relative aspect-[1236/2745] overflow-hidden rounded-[34px] bg-white">
+                <Image
+                  src={project.mobileImage}
+                  alt={`${project.title} on mobile`}
+                  fill
+                  sizes="300px"
+                  className="object-cover object-top"
+                />
+              </div>
+            </div>
+          </Reveal>
+        </section>
+      )}
 
       {project.sections && (
         <section className="mx-auto max-w-[1360px] px-0 pt-24">

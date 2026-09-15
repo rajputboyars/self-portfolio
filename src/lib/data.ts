@@ -12,7 +12,7 @@ export const profile = {
   stats: [
     { value: "4.5", label: "Years of experience" },
     { value: "50K+", label: "Users served" },
-    { value: "05", label: "Shipped projects" },
+    { value: "06", label: "Shipped projects" },
     { value: "10+", label: "Technologies" },
   ],
 };
@@ -33,6 +33,11 @@ export type Project = {
   liveUrl?: string;
   /** Screenshot under /public, shown on the card cover and project page. */
   image?: string;
+  /** Tall phone screenshot under /public, shown in a phone frame on the project page. */
+  mobileImage?: string;
+  githubUrl?: string;
+  /** Short line shown under the title on the project page. */
+  tagline?: string;
   /** Extra grouped detail shown on the project page (e.g. admin panel, security). */
   sections?: { title: string; items: string[] }[];
 };
@@ -53,6 +58,77 @@ export function getProjectNeighbours(slug: string) {
 }
 
 export const projects: Project[] = [
+  {
+    slug: "learnverse",
+    title: "Learnverse",
+    client: "Personal project",
+    category: "personal",
+    year: "2026",
+    role: "Full stack design and development",
+    tagline: "Learn the concept. Then answer the interview question.",
+    stack: [
+      "Next.js 16",
+      "React 19",
+      "Tailwind CSS v4",
+      "MongoDB Atlas",
+      "Mongoose 9",
+      "Auth.js",
+      "Claude · OpenAI · Gemini",
+      "Vercel",
+    ],
+    summary:
+      "A bilingual (English / Hinglish) learning platform where every concept comes with a daily-life analogy, runnable code, a quiz and the interview question it turns into.",
+    problem:
+      "Most programming material is written in English, but many developers in India understand ideas faster in Hinglish. Tutorials also tend to stop at theory — they rarely connect a concept to real life, to working code, or to how it's asked in an interview.",
+    githubUrl: "https://github.com/rajputboyars/learnverse",
+    image: "/projects/learnverse-home.png",
+    mobileImage: "/projects/learnverse-mobile-swipe.png",
+    highlights: [
+      "Provider-agnostic AI layer — one interface over Claude, OpenAI and Gemini, with a demo mode when no key is configured. Resolution order: user's key → server key → demo.",
+      "Encrypted secret storage — API keys encrypted at rest and exposed only as masked hints.",
+      "Bilingual data model — content fields migrated from plain strings to { english, hinglish } with a backward-compatible fallback, so the migration shipped without downtime.",
+      "AI-assisted content backfill — a resumable script that translated 1,000+ legacy fields, rotating across models as each free-tier daily quota ran out.",
+      "Performance — ISR with hourly revalidation on content pages; the feed orders over IDs and hydrates only the visible page instead of loading every concept.",
+      "Accessibility — WCAG-audited with axe in light and dark mode, visible focus states, 44px touch targets and reduced-motion support.",
+      "Mobile QA — overflow audited at 320px and 375px on a production build; fixed a React Suspense boundary that left the navigation invisible on dynamically rendered pages.",
+    ],
+    sections: [
+      {
+        title: "Every concept page, five parts",
+        items: [
+          "A plain-language explanation, switchable between English and Hinglish.",
+          "A daily-life analogy — caching as dal cooked in advance at a dhaba, a content repository as your phone's file manager.",
+          "An interactive code playground.",
+          "A quiz.",
+          "The interview question the concept turns into.",
+        ],
+      },
+      {
+        title: "Features",
+        items: [
+          "Bilingual content — a global EN / Hinglish toggle across the UI and course content.",
+          "46 courses, from JavaScript and React to System Design, DBMS, Docker and MLOps.",
+          "2,402 interview questions, filterable by course and difficulty, plus mock interviews.",
+          "Code challenges with test cases that run in a sandboxed Web Worker in the browser — no code is sent to a server.",
+          "7 career roadmaps — Frontend, Backend, Full Stack, MERN, PERN, DevOps, AI Engineer.",
+          "Swipeable learning cards and a feed built for phones, with a bottom tab bar.",
+          "AI tools — explain a topic, generate a learning plan, compare courses. Users bring their own API key, encrypted with AES-256-GCM and never returned to the browser.",
+          "Gamification — XP, streaks, weekly leaderboard and certificates.",
+          "Personal analytics, a prompt library, share cards and dark mode.",
+        ],
+      },
+      {
+        title: "Tech stack",
+        items: [
+          "Frontend — Next.js 16 (App Router), React 19, Tailwind CSS v4, Font Awesome.",
+          "Backend — Next.js Route Handlers, Mongoose 9, MongoDB Atlas.",
+          "Auth — Auth.js (NextAuth v5), JWT sessions.",
+          "AI — Claude, OpenAI and Gemini APIs.",
+          "Hosting — Vercel (ISR, cron jobs).",
+        ],
+      },
+    ],
+  },
   {
     slug: "interior-design-hub",
     title: "Aluminium & glass business website",

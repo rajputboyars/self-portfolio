@@ -35,7 +35,6 @@ export type Project = {
   image?: string;
   /** Tall phone screenshot under /public, shown in a phone frame on the project page. */
   mobileImage?: string;
-  githubUrl?: string;
   /** Short line shown under the title on the project page. */
   tagline?: string;
   /** Extra grouped detail shown on the project page (e.g. admin panel, security). */
@@ -80,7 +79,7 @@ export const projects: Project[] = [
       "A bilingual (English / Hinglish) learning platform where every concept comes with a daily-life analogy, runnable code, a quiz and the interview question it turns into.",
     problem:
       "Most programming material is written in English, but many developers in India understand ideas faster in Hinglish. Tutorials also tend to stop at theory — they rarely connect a concept to real life, to working code, or to how it's asked in an interview.",
-    githubUrl: "https://github.com/rajputboyars/learnverse",
+    liveUrl: "https://learnverse-one.vercel.app/",
     image: "/projects/learnverse-home.png",
     mobileImage: "/projects/learnverse-mobile-swipe.png",
     highlights: [

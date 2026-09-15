@@ -5,7 +5,6 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { ArrowLeft, ArrowRight, ArrowUpRight } from "lucide-react";
 import CTA from "./CTA";
-import GithubIcon from "./GithubIcon";
 import Reveal from "./Reveal";
 import TealShell from "./TealShell";
 import type { Project } from "@/lib/data";
@@ -113,30 +112,16 @@ export default function ProjectDetail({ project, previous, next }: Props) {
               <p className="mt-2 leading-relaxed">{project.outcome}</p>
             </div>
           )}
-          {(project.liveUrl || project.githubUrl) && (
-            <div className="flex flex-wrap gap-3">
-              {project.liveUrl && (
-                <a
-                  href={project.liveUrl}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="group inline-flex items-center gap-2 rounded-full bg-accent px-7 py-4 font-semibold text-on-accent transition-transform duration-300 hover:scale-105"
-                >
-                  Visit live site
-                  <ArrowUpRight size={18} className="transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
-                </a>
-              )}
-              {project.githubUrl && (
-                <a
-                  href={project.githubUrl}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="inline-flex items-center gap-2 rounded-full border-[1.5px] border-teal px-7 py-4 font-semibold text-teal transition-colors duration-300 hover:bg-teal hover:text-white"
-                >
-                  <GithubIcon size={18} /> GitHub
-                </a>
-              )}
-            </div>
+          {project.liveUrl && (
+            <a
+              href={project.liveUrl}
+              target="_blank"
+              rel="noreferrer"
+              className="group inline-flex items-center gap-2 self-start rounded-full bg-accent px-7 py-4 font-semibold text-on-accent transition-transform duration-300 hover:scale-105"
+            >
+              Visit live site
+              <ArrowUpRight size={18} className="transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+            </a>
           )}
         </Reveal>
         <div className="flex flex-col gap-4">

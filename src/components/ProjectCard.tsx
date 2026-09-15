@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import Reveal from "./Reveal";
@@ -20,10 +21,22 @@ export default function ProjectCard({ project, index }: { project: Project; inde
         <div
           className={`relative flex h-60 items-center justify-center overflow-hidden rounded-[22px] sm:h-[340px] ${covers[index % covers.length]}`}
         >
-          <div className="absolute -bottom-16 -right-16 h-60 w-60 rounded-full bg-white/10 transition-transform duration-700 group-hover:scale-150" />
-          <span className="relative px-6 text-center text-4xl font-extrabold tracking-tight opacity-40 transition-transform duration-500 group-hover:scale-110 sm:text-5xl">
-            {project.client}
-          </span>
+          {project.image ? (
+            <Image
+              src={project.image}
+              alt={`${project.title} homepage`}
+              fill
+              sizes="(min-width: 768px) 640px, 100vw"
+              className="object-cover object-top transition-transform duration-700 group-hover:scale-105"
+            />
+          ) : (
+            <>
+              <div className="absolute -bottom-16 -right-16 h-60 w-60 rounded-full bg-white/10 transition-transform duration-700 group-hover:scale-150" />
+              <span className="relative px-6 text-center text-4xl font-extrabold tracking-tight opacity-40 transition-transform duration-500 group-hover:scale-110 sm:text-5xl">
+                {project.client}
+              </span>
+            </>
+          )}
           <span
             className={`absolute left-4 top-4 rounded-full px-3.5 py-1.5 text-xs font-semibold ${
               index % 2 === 1 ? "bg-teal text-white" : "bg-accent text-on-accent"

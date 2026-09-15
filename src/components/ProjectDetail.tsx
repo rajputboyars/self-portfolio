@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { ArrowLeft, ArrowRight, ArrowUpRight } from "lucide-react";
@@ -69,10 +70,22 @@ export default function ProjectDetail({ project, previous, next }: Props) {
               <span className="h-3 w-3 rounded-full bg-[#9cc3ba]" />
               <span className="h-3 w-3 rounded-full bg-[#9cc3ba]" />
             </div>
-            {/* Replace with a project screenshot */}
-            <div className="flex flex-1 items-center justify-center text-5xl font-extrabold tracking-tight text-teal/10 sm:text-8xl">
-              {project.client}
-            </div>
+            {project.image ? (
+              <div className="relative flex-1">
+                <Image
+                  src={project.image}
+                  alt={`${project.title} homepage`}
+                  fill
+                  priority
+                  sizes="(min-width: 1080px) 1080px, 100vw"
+                  className="object-cover object-top"
+                />
+              </div>
+            ) : (
+              <div className="flex flex-1 items-center justify-center text-5xl font-extrabold tracking-tight text-teal/10 sm:text-8xl">
+                {project.client}
+              </div>
+            )}
           </div>
         </motion.div>
       </TealShell>

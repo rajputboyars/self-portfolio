@@ -31,6 +31,8 @@ export type Project = {
   problem?: string;
   outcome?: string;
   liveUrl?: string;
+  /** Screenshot under /public, shown on the card cover and project page. */
+  image?: string;
   /** Extra grouped detail shown on the project page (e.g. admin panel, security). */
   sections?: { title: string; items: string[] }[];
 };
@@ -82,6 +84,7 @@ export const projects: Project[] = [
     outcome:
       "A fast, accessible and secure website that the client can run on their own, ready to hand over and move to their own server.",
     liveUrl: "https://interior-design-hub-taupe.vercel.app/",
+    image: "/projects/interior-design-hub.jpg",
     highlights: [
       "Server rendering with cached catalogue data that refreshes as soon as the admin saves a change.",
       "102 end-to-end tests (Playwright) and 68 unit tests (Vitest), written from a QA and business-analyst point of view, covering every page, admin workflow and mobile layout.",
